@@ -1,0 +1,44 @@
+{
+    "configurations": [
+        {
+            "name": "ESP-IDF",
+            "compilerPath": "${env:IDF_XTENSA_ESP32_ELF_GCC}",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "includePath": [
+                // "/home/kl/esp/esp-idf/components/**",
+                "${config:idf.espIdfPath}/components/**",
+                "${workspaceFolder}/**"
+            ],
+            "browse": {
+                "path": [
+                    // "/home/kl/esp/esp-idf/components",
+                    "${config:idf.espIdfPath}/components",
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": false
+            }
+        }
+    ],
+    "version": 4
+}
+
+
+
+
+// 2 options for code navigation:
+// Default Configuration with compile_commands.json
+// Recursive search configuration
+// https://github.com/espressif/vscode-esp-idf-extension/blob/HEAD/docs/C_CPP_CONFIGURATION.md#default-configuration-with-compile_commandsjson
+// https://github.com/espressif/vscode-esp-idf-extension/blob/HEAD/docs/C_CPP_CONFIGURATION.md#recursive-search-configuration
+
+// "${config:idf.espIdfPath}/components/**",    // DOES NOT WORK! WHAT IS WRONG??
+
+// Predefined variables
+// https://code.visualstudio.com/docs/editor/variables-reference
+// ${env:IDF_TOOLS_PATH}
+// IDF_TOOLS_PATH="/home/kl/.espressif"
+
+// "${workspaceFolder}"
+

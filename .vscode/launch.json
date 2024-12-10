@@ -1,0 +1,92 @@
+
+// base openocd / gdb launch
+{
+    "version": "0.2.0",
+    "configurations": [
+    {
+        // to start openocd as configured in task.json, 'preRun' must match label in task
+        "name": "ESP32 OpenOCD",
+        "type": "cppdbg",
+        "request": "launch",
+        // "cwd": "${workspaceFolder}/build",
+        "cwd": "${workspaceFolder}",
+        "program": "${workspaceFolder}/build/base.elf",
+        // "miDebuggerServerAddress": "localhost:3333",
+        // "preLaunchTask": "OpenOCD",         // task.json: "label": "OpenOCD"
+        "miDebuggerPath": "xtensa-esp32-elf-gdb",
+        // "miDebuggerPath": "/home/kl/.espressif/tools/xtensa-esp32-elf/esp-2021r2-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gdb",
+        "setupCommands": [
+            { "text": "target remote localhost:3333" },
+            { "text": "set remote hardware-watchpoint-limit 2" },
+            // { "text": "mon reset halt" },
+            { "text": "thb app_main" },
+            { "text": "flushregs" },
+            // { "text": "c" },
+            // { "text": "mon program_esp ${workspaceFolder}/build/bootloader/bootloader.bin 0x1000 verify"},
+            // { "text": "mon program_esp ${workspaceFolder}/build/partition_table/partition-table.bin 0x8000 verify"},
+            // { "text": "mon program_esp ${workspaceFolder}/build/base.bin 0x10000 verify"},
+            // { "text": "monitor reset halt" },
+            // { "text": "flushregs" },
+        ],
+        
+        "stopAtEntry": false,
+        
+        "externalConsole": true,
+        "environment": [],
+        "MIMode": "gdb",
+        "logging": { "engineLogging": true },
+    } 
+    ]
+}
+
+// gdbinit example
+// target remote 127.0.0.1:3333
+// set remote hardware-watchpoint-limit 2
+// mon reset halt
+// flushregs
+// tb app_main (or thb *0x40007d54)
+// c
+
+// DEFAULT
+// {
+//     // Use IntelliSense to learn about possible attributes.
+//     // Hover to view descriptions of existing attributes.
+//     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+//     "version": "0.2.0",
+//     "configurations": [
+//         {
+//             "name": "xtensa-esp32-elf-gcc - Build and debug active file",
+//             "type": "cppdbg",
+//             "request": "launch",
+//             "program": "${fileDirname}/${fileBasenameNoExtension}",
+//             "args": [],
+//             "stopAtEntry": false,
+//             "cwd": "${fileDirname}",
+//             "environment": [],
+//             "externalConsole": false,
+//             "MIMode": "gdb",
+//             "setupCommands": [
+//                 {
+//                     "description": "Enable pretty-printing for gdb",
+//                     "text": "-enable-pretty-printing",
+//                     "ignoreFailures": true
+//                 }
+//             ],
+//             "preLaunchTask": "C/C++: xtensa-esp32-elf-gcc build active file",
+//             "miDebuggerPath": "/usr/bin/gdb"
+//         }
+//     ]
+// }
+
+// run 'idf.py build' to check bootloader and other adresses
+
+// "args": [],
+// "stopAtEntry": false,
+// "environment": [],
+// "externalConsole": false,
+// "MIMode": "gdb",
+
+// start openocd and gdb
+// start gdb, make sure to use correct .elf file
+// xtensa-esp32-elf-gdb --command=gdbinit ./build/base.elf
+// xtensa-esp32-elf-gdb --command=gdbinit ./build/hello-world.elf

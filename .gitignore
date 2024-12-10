@@ -1,0 +1,7 @@
+# ignore files: *.log, *.old and *.workspace
+*.log
+*.old
+*.code-workspace
+
+# ignore build directory
+build/

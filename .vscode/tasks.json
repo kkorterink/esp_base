@@ -1,0 +1,289 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build app",
+            "type": "shell",
+            "command": "ninja",
+            "args": [
+                "-C",
+                "./build/",
+                "-f",
+                "build.ninja",
+                "app"
+            ],
+            "presentation": {
+                "echo": true,
+                "focus": true,
+                "clear": true,
+                "panel": "shared",
+                "showReuseMessage": true
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build all",
+            "type": "shell",
+            "command": "ninja",
+            "args": [
+                "-C",
+                "./build/",
+                "-f",
+                "build.ninja",
+                "all"
+            ],
+            "presentation": {
+                "echo": true,
+                "focus": false,
+                "panel": "shared",
+                "showReuseMessage": true,
+                "clear": true
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+  
+        // Mapped to key binding "ctrl+m", see ~/.config/Code/User/keybindings.json
+        {
+            "label": "Monitor",
+            "type": "shell",
+            "command": "idf.py",
+            "args": [
+                "-p",
+                "${env:ESPPORT}",
+                "-b",
+                "115200",
+                "monitor"
+            ],
+            "presentation": {
+                "echo": true,
+                "focus": true,
+                "clear": true,
+                "panel": "dedicated",
+                "showReuseMessage": false
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        
+        // Mapped to key binding "ctrl+d", see ~/.config/Code/User/keybindings.json
+        {
+            "label": "Flash app",
+            "type": "shell",
+            "command": "idf.py",
+            "args": [
+                "-p",
+                "${env:ESPPORT}",
+                "-b",
+                "460800",
+                "app-flash"
+            ],
+            "presentation": {
+                "echo": true,
+                "focus": true,
+                "clear": true,
+                "panel": "shared",
+                "reveal": "always",
+                "showReuseMessage": false
+            },
+            "group": "build"
+        },
+        {
+            "label": "Clean",
+            "type": "shell",
+            "command": "ninja",
+            "args": [
+                "-C",
+                "./build/",
+                "-f",
+                "build.ninja",
+                "clean"
+            ],
+            "presentation": {
+                "echo": true,
+                "focus": true,
+                "clear": true,
+                "panel": "shared",
+                "reveal": "always",
+                "showReuseMessage": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "CMake",
+            "type": "shell",
+            "command": "cmake",
+            "args": [
+                "-B",
+                "./build/",
+                "-G",
+                "Ninja"
+            ],
+            "presentation": {
+                "echo": true,
+                "focus": true,
+                "clear": true,
+                "panel": "shared",
+                "reveal": "always",
+                "showReuseMessage": false
+            },
+            "group": "build"
+        },
+        {
+            "label": "Openocd",
+            "type": "shell",
+            "command": "openocd",
+            "args": [
+                "-f",
+                "board/esp32-ethernet-kit-3.3v.cfg"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "GDB",
+            "type": "shell",
+            "command": "xtensa-esp32-elf-gdb",
+            "args": [
+                "--command=gdbinit",
+                "./build/${workspaceFolderBasename}.elf"
+            ],
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Mytest",
+            "type": "shell",
+            "command": "echo",
+            "args": [
+                "xxxx = ${config:idf.espIdfPath}/components/"
+            ],
+            "presentation": {
+                "echo": false,
+                "focus": true,
+                "clear": true,
+                "panel": "shared",
+                "showReuseMessage": true
+            },
+            "group": "build"
+        }
+    ]
+}
+
+
+
+// {
+//     "label": "Clean all",
+//     "type": "shell",
+//     "command": "rm",
+//     "args": [ "-rf", "./build/" ],
+//     "presentation": {
+//         "echo": true,
+//         "reveal": "always",
+//         "focus": true,
+//         "panel": "shared",
+//         "showReuseMessage": true,
+//         "clear": true
+//     },
+//     "problemMatcher": [],
+//     "group": {
+//         "kind": "test",
+//         "isDefault": true
+//     }
+// },
+
+
+
+// "inputs", how does this work?
+// "version": "2.0.0",
+// "tasks": [
+//   {
+//     "label": "task name",
+//     "command": "${input:variableID}"
+//     // ...
+//   }
+// ],
+// "inputs": [
+//   {
+//     "id": "variableID",
+//     "type": "type of input variable"
+//     // type specific configuration attributes
+//   }
+// ]
+
+
+
+// The task's properties have the following semantic:
+// label:          The task's label used in the user interface.
+// type:           The task's type. For a custom task, this can either be shell or 
+//                 process. If shell is specified, the command is interpreted as a shell 
+//                 command (for example: bash, cmd, or PowerShell). If process is specified, 
+//                 the command is interpreted as a process to execute.
+// command:        The actual command to execute.
+// windows:        Any Windows specific properties. Will be used instead of the default 
+//                 properties when the command is executed on the Windows operating system.
+// group:          Defines to which group the task belongs. In the example, it belongs to the 
+//                 test group. Tasks that belong to the test group can be executed by running 
+//                 Run Test Task from the Command Palette.
+// presentation:   Defines how the task output is handled in the user interface. In this 
+//                 example, the Integrated Terminal showing the output is always revealed 
+//                 and a new terminal is created on every task run.
+// options:        Override the defaults for cwd (current working directory), env 
+//                 (environment variables), or shell (default shell). Options can be set 
+//                 per task but also globally or per platform. Environment variables configured 
+//                 here can only be referenced from within your task script or process and will 
+//                 not be resolved if they are part of your args, command, or other task attributes.
+// runOptions:     Defines when and how a task is run.
+
+// panel: 'shared' | 'dedicated' | 'new';
+// Controls if the task panel is used for this task only (dedicated),
+// shared between tasks (shared) or if a new panel is created on
+// every task execution (new). Defaults to `shared`.
+
+// -c 'set ESP_RTOS none'
+// this is needed, otherwise openocd is going to debug all task at same time
+// "command": "openocd -c 'set ESP_RTOS none' -f board/esp32-ethernet-kit-3.3v.cfg",
+
+// default command for ctrl-B
+//  "isDefault": true
+
+
+// {
+//     "version": "2.0.0",
+//     "tasks": [
+//     {
+//         "label": "openocd",
+//         "type": "shell",
+//         "isBackground": true,
+//         "options": 
+//         {
+//             "cwd": "/opt/esp/openocd-esp32"
+//         },
+//         "command": "bin/openocd -s share/openocd/scripts -f interface/jlink.cfg -f board/esp-wroom-32.cfg",
+//     }
+//     ]
+// }
+
+// {
+//     "label": "openocd",
+//     "type": "shell",
+//     "isBackground": false,
+//     "command": "openocd",
+//     "args": ["-f", "board/esp32-ethernet-kit-3.3v.cfg"],
+// },
+
+// https://www.youtube.com/watch?v=uq93H7T7cOQ
+// https://code.visualstudio.com/docs/editor/tasks-appendix
+// https://code.visualstudio.com/docs/editor/tasks#vscode
+// https://code.visualstudio.com/docs/editor/tasks#_custom-tasks
+// https://code.visualstudio.com/docs/editor/variables-reference
+// https://code.visualstudio.com/docs/cpp/config-linux#_cc-configurations
